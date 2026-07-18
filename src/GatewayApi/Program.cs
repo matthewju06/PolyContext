@@ -4,7 +4,7 @@ using PearlMetric.GatewayApi.Data; // 1. Added this to let Program see PearlMetr
 var builder = WebApplication.CreateBuilder(args);
 
 // 2. Updated the database name in the connection string to match the new identity
-var connectionString = "Host=localhost;Port=5432;Database=pearlmetric_dev;Username=polyadmin;Password=PolySecurePassword2026!";
+var connectionString = "Host=localhost;Port=5432;Database=pearlmetric_dev;Username=pearladmin;Password=PearlSecurePassword2026!";
 
 builder.Services.AddDbContext<PearlMetricDb>(options =>
     options.UseNpgsql(connectionString));
