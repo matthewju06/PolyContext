@@ -1,1 +1,58 @@
+# Local project notes
 notes.md
+PLAN.md
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET build and test output
+**/bin/
+**/obj/
+artifacts/
+TestResults/
+*.coverage
+*.coveragexml
+
+# Node and Angular output
+node_modules/
+dist/
+.angular/
+.nx/
+coverage/
+.npm/
+*.tsbuildinfo
+
+# Python environments and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.Local.json
+secrets.json
+
+# Runtime data
+uploads/
+storage/
+var/
+*.log

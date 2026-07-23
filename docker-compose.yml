@@ -4,15 +4,15 @@ services:
     container_name: pearlmetric-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: pearladmin
-      POSTGRES_PASSWORD: PearlSecurePassword2026!
-      POSTGRES_DB: pearlmetric_dev
+      POSTGRES_USER: ${POSTGRES_USER:-pearladmin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-pearlmetric_dev}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U pearladmin -d pearlmetric_dev"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -54,18 +54,37 @@ pearl-metric
 ## Getting Started
 ### Prerequisites
 - Docker & Docker Compose
-- .NET 10 SDK
+- .NET 10 SDK (pinned in `global.json`)
+- Node.js 24 (pinned in `.nvmrc`; used later for Angular)
 
 ### Spin Up Infrastructure
-To provision the PostgreSQL instance and baseline components locally, spin up the Docker network:
+Create an untracked local environment file and replace its placeholder password:
+
+```
+cp .env.example .env
+```
+
+To provision PostgreSQL locally, spin up the Docker network:
+
 ```
 docker compose up -d
 ```
 
+### Build and Verify
+From the repository root:
+
+```
+./scripts/build.sh
+./scripts/test.sh
+```
 
 ### Run the API Engine
-Navigate to the source directory and boot up the .NET runtime:
+Navigate to the source directory and store a matching connection string in .NET user secrets. The password must match `POSTGRES_PASSWORD` in `.env`:
+
 ```
 cd src/GatewayApi
+dotnet user-secrets set ConnectionStrings:PearlMetric 'Host=localhost;Port=5432;Database=pearlmetric_dev;Username=pearladmin;Password=replace-with-your-local-password'
 dotnet watch run
 ```
+
+Alternatively, provide the connection string through the `ConnectionStrings__PearlMetric` environment variable. If the PostgreSQL volume was initialized previously, use that volume's existing password or recreate the local development volume.
