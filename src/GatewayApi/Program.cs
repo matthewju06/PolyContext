@@ -4,6 +4,7 @@ using PearlMetric.GatewayApi.Configuration;
 using PearlMetric.GatewayApi.Data;
 using PearlMetric.GatewayApi.Endpoints;
 using PearlMetric.GatewayApi.Services;
+using PearlMetric.GatewayApi.Services.Cv;
 using PearlMetric.GatewayApi.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,9 @@ builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<RegimenService>();
 builder.Services.AddScoped<ScanRunService>();
 builder.Services.AddScoped<FrameUploadService>();
+builder.Services.AddScoped<ScanAnalysisService>();
 builder.Services.AddSingleton<IImageStore, LocalFileImageStore>();
+builder.Services.AddSingleton<ICvAnalysisClient, FakeCvAnalysisClient>();
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {

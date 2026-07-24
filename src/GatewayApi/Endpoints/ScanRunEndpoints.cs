@@ -50,6 +50,41 @@ public static class ScanRunEndpoints
             .Produces<ScanRunResponse>()
             .Produces(StatusCodes.Status404NotFound);
 
+        group.MapPost("/{runId:guid}/analyze", async (
+                Guid runId,
+                ScanAnalysisService analysis,
+                CancellationToken cancellationToken) =>
+            {
+                try
+                {
+                    var response = await analysis.AnalyzeAsync(runId, cancellationToken);
+                    return response is null ? Results.NotFound() : Results.Ok(response);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return Results.ValidationProblem(new Dictionary<string, string[]>
+                    {
+                        ["run"] = [ex.Message]
+                    });
+                }
+            })
+            .WithName("AnalyzeScanRun")
+            .Produces<ScanRunResponse>()
+            .Produces(StatusCodes.Status404NotFound)
+            .ProducesValidationProblem();
+
+        group.MapGet("/{runId:guid}/analysis", async (
+                Guid runId,
+                ScanRunService runs,
+                CancellationToken cancellationToken) =>
+            {
+                var detail = await runs.GetAnalysisDetailAsync(runId, cancellationToken);
+                return detail is null ? Results.NotFound() : Results.Ok(detail);
+            })
+            .WithName("GetScanRunAnalysis")
+            .Produces<ScanRunAnalysisDetailResponse>()
+            .Produces(StatusCodes.Status404NotFound);
+
         return group;
     }
 }
